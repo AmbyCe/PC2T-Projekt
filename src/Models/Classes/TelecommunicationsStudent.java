@@ -8,6 +8,6 @@ public class TelecommunicationsStudent extends Student implements Models.Interfa
 
     @Override
     public String getNameInMorse() {
-        return null;
+        return "a";
     }
 }

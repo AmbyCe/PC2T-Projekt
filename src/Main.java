@@ -15,6 +15,7 @@ public class Main {
         System.out.println("# 2) Zadat studentovi novou znamku                        #");
         System.out.println("# 3) Propustit studenta z univerzity (smazat studenta)    #");
         System.out.println("# 4) Vypsat informace o studentovi (vc. stud. prumeru)    #");
+        System.out.println("# 5) Spustit dovednost studenta                           #");
         System.out.println("#################### DATABAZE STUDENTU ####################");
 
         System.out.print("[>] Zadejte moznost: ");
@@ -134,6 +135,24 @@ public class Main {
                 System.out.println("[>] Prijmeni: " + students.get(id).getSurname());
                 System.out.println("[>] Datum narozeni: " + students.get(id).getDateOfBirth());
                 System.out.println("[>] Studijni prumer: " + students.get(id).getAvgGrade());
+
+                continueByPressingAnyKey();
+                return;
+
+            case 5:
+                System.out.println("");
+                System.out.println("--->   Moznost 5: Spustit dovednost studenta   <---");
+
+                id = getStudentIdFromInput(scanner, 1, 1);
+                if (id == -1) return;
+
+                String returnValue;
+                if (students.get(id) instanceof CybersecurityStudent)
+                    returnValue = ((CybersecurityStudent) students.get(id)).getNameAsHash();
+                else
+                    returnValue = ((TelecommunicationsStudent) students.get(id)).getNameInMorse();
+
+                System.out.println("[>] USPECH! Vysledek ability studenta: " + returnValue + ".");
 
                 continueByPressingAnyKey();
                 return;
