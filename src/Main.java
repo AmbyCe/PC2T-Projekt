@@ -2,7 +2,9 @@ import Models.Classes.CybersecurityStudent;
 import Models.Classes.Student;
 import Models.Classes.TelecommunicationsStudent;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.*;
 
@@ -22,6 +24,7 @@ public class Main {
         System.out.println("# 7) Vypsat obecny studijni prumer                        #");
         System.out.println("# 8) Vypsat pocet studentu v oborech                      #");
         System.out.println("# 9) Ulozit studenta do souboru                           #");
+        System.out.println("# 10) Nacist studenta ze souboru                          #");
         System.out.println("#################### DATABAZE STUDENTU ####################");
 
         System.out.print("[>] Zadejte moznost: ");
@@ -254,6 +257,61 @@ public class Main {
                 }
 
                 System.out.println("[>] USPECH! Data byla vyexporovana do souboru: " + id + ".csv.");
+
+                continueByPressingAnyKey();
+                return;
+
+            case 10:
+                System.out.println("");
+                System.out.println("--->   Moznost 10: Nacist studenta ze souboru   <---");
+
+                System.out.print("[1/1] Zadejte nazev souboru (vc. pripony): ");
+                String fileName = scanner.next();
+
+                file = new File("./" + fileName);
+                try {
+                    String output = "";
+                    FileReader fr = new FileReader(file);
+                    BufferedReader br = new BufferedReader(fr);
+                    br.readLine();
+                    output = br.readLine();
+                    br.close();
+                    fr.close();
+
+                    String[] outputSplitted = output.split(",");
+                    if (outputSplitted.length < 5)
+                    {
+                        System.out.println("[!] CHYBA! Soubor pro import je v nespravnem formatu!");
+
+                        continueByPressingAnyKey();
+                        return;
+                    }
+
+                    if (Objects.equals(outputSplitted[0], "Telekomunikace"))
+                        students.put(students.size() + 1, new TelecommunicationsStudent(students.size() + 1, outputSplitted[1], outputSplitted[2], outputSplitted[3]));
+                    else
+                        students.put(students.size() + 1, new CybersecurityStudent(students.size() + 1, outputSplitted[1], outputSplitted[2], outputSplitted[3]));
+
+                    for (int i = 4; i < outputSplitted.length; i++)
+                    {
+                        String gradeStr = outputSplitted[i];
+                        gradeStr = gradeStr.replace("[", "");
+                        gradeStr = gradeStr.replace("]", "");
+                        gradeStr = gradeStr.replace(" ", "");
+
+                        students.get(students.size()).addGrade(Integer.parseInt(gradeStr));
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    System.out.println("[!] CHYBA! Nepodarilo se otevrit / cist soubor pro import nebo jsou data v nespravnem formatu pro import!");
+                    System.out.println(e);
+                    continueByPressingAnyKey();
+                    return;
+                }
+
+                System.out.println("[>] USPECH! Student byl importovan ze souboru, jeho ID je: #" + students.size() + ".");
 
                 continueByPressingAnyKey();
                 return;
