@@ -27,10 +27,7 @@ public class Main {
         {
             System.out.println("[!] CHYBA! Vybrana moznost musi byt cislo!");
 
-            System.out.println("[#] Pokracujte stisknutim jakekoliv klavesy...");
-            scanner.nextLine();
-            scanner.nextLine();
-            main(null);
+            ContinueByPressingAnyKey();
             return;
         }
 
@@ -71,11 +68,72 @@ public class Main {
                 Student lastAddedStudent = students.get(students.size());
                 System.out.println("[>] USPECH! Byl pridan student: (#" + lastAddedStudent.getId() + ") " + lastAddedStudent.getName() + " " + lastAddedStudent.getSurname());
 
-                System.out.println("[#] Pokracujte stisknutim jakekoliv klavesy...");
-                scanner.nextLine();
-                scanner.nextLine();
-                main(null);
-                break;
+                ContinueByPressingAnyKey();
+                return;
+
+            case 2:
+                System.out.println("");
+                System.out.println("--->   Moznost 2: Zadani nove znamky studentovi   <---");
+
+                int id;
+                int grade;
+                System.out.print("[1/2] Zadejte ID studenta: ");
+                String idString = scanner.next();
+                try
+                {
+                    id = Integer.parseInt(idString);
+                }
+                catch (NumberFormatException e)
+                {
+                    System.out.println("[!] CHYBA! ID studenta musi byt cele cislo!");
+
+                    ContinueByPressingAnyKey();
+                    return;
+                }
+                if (!students.containsKey(id))
+                {
+                    System.out.println("[!] CHYBA! Student s timto ID nebyl nalezen!");
+
+                    ContinueByPressingAnyKey();
+                    return;
+                }
+
+                System.out.print("[2/2] Zadejte novou znamku: ");
+                String gradeString = scanner.next();
+                try
+                {
+                    grade = Integer.parseInt(gradeString);
+                }
+                catch (NumberFormatException e)
+                {
+                    System.out.println("[!] CHYBA! Nova znamka studenta musi byt cele cislo!");
+
+                    ContinueByPressingAnyKey();
+                    return;
+                }
+                if (grade < 1 || grade > 5)
+                {
+                    System.out.println("[!] CHYBA! Nova znamka musi byt v rozsahu 1-5!");
+
+                    ContinueByPressingAnyKey();
+                    return;
+                }
+
+                Student targetStudent = students.get(id);
+                targetStudent.AddGrade(grade);
+                System.out.println("[>] USPECH! Studentovi: (#" + targetStudent.getId() + ") " + targetStudent.getName() + " " + targetStudent.getSurname() + " byla pridana znamka: " + grade);
+
+                ContinueByPressingAnyKey();
+                return;
         }
+    }
+
+    private static void ContinueByPressingAnyKey()
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("[#] Pokracujte stisknutim jakekoliv klavesy...");
+        scanner.nextLine();
+        main(null);
     }
 }
