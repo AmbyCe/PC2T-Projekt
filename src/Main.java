@@ -13,6 +13,7 @@ public class Main {
         System.out.println("# ------------------------------------------------------- #");
         System.out.println("# 1) Prijmout studenta na univerzitu (pridat studenta)    #");
         System.out.println("# 2) Zadat studentovi novou znamku                        #");
+        System.out.println("# 3) Propustit studenta z univerzity (smazat studenta)    #");
         System.out.println("#################### DATABAZE STUDENTU ####################");
 
         System.out.print("[>] Zadejte moznost: ");
@@ -122,6 +123,37 @@ public class Main {
                 Student targetStudent = students.get(id);
                 targetStudent.AddGrade(grade);
                 System.out.println("[>] USPECH! Studentovi: (#" + targetStudent.getId() + ") " + targetStudent.getName() + " " + targetStudent.getSurname() + " byla pridana znamka: " + grade);
+
+                ContinueByPressingAnyKey();
+                return;
+
+            case 3:
+                System.out.println("");
+                System.out.println("--->   Moznost 3: Propustit studenta z univerzity   <---");
+
+                System.out.print("[1/1] Zadejte ID studenta: ");
+                idString = scanner.next();
+                try
+                {
+                    id = Integer.parseInt(idString);
+                }
+                catch (NumberFormatException e)
+                {
+                    System.out.println("[!] CHYBA! ID studenta musi byt cele cislo!");
+
+                    ContinueByPressingAnyKey();
+                    return;
+                }
+                if (!students.containsKey(id))
+                {
+                    System.out.println("[!] CHYBA! Student s timto ID nebyl nalezen!");
+
+                    ContinueByPressingAnyKey();
+                    return;
+                }
+
+                students.remove(id);
+                System.out.println("[>] USPECH! Student s ID: " + id + " byl smazan.");
 
                 ContinueByPressingAnyKey();
                 return;
