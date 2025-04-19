@@ -1,6 +1,7 @@
 import Models.Classes.CybersecurityStudent;
 import Models.Classes.Student;
 import Models.Classes.TelecommunicationsStudent;
+import Utils.DbConnector;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,7 +10,7 @@ import java.io.FileWriter;
 import java.util.*;
 
 public class Main {
-    private static HashMap<Integer, Student> students = new HashMap<>();
+    private static final HashMap<Integer, Student> students = new HashMap<>();
 
     public static void main(String[] args) {
         System.out.println("#################### DATABAZE STUDENTU ####################");
@@ -25,6 +26,7 @@ public class Main {
         System.out.println("# 8) Vypsat pocet studentu v oborech                      #");
         System.out.println("# 9) Ulozit studenta do souboru                           #");
         System.out.println("# 10) Nacist studenta ze souboru                          #");
+        System.out.println("# 11) Ukoncit program (ulozit do DB)                      #");
         System.out.println("#################### DATABAZE STUDENTU ####################");
 
         System.out.print("[>] Zadejte moznost: ");
@@ -46,7 +48,7 @@ public class Main {
         switch (chosenOption)
         {
             case 1:
-                System.out.println("");
+                System.out.println();
                 System.out.println("--->   Moznost 1: Pridani noveho studenta na univerzitu   <---");
 
                 String studentGroup;
@@ -84,7 +86,7 @@ public class Main {
                 return;
 
             case 2:
-                System.out.println("");
+                System.out.println();
                 System.out.println("--->   Moznost 2: Zadani nove znamky studentovi   <---");
 
                 int id;
@@ -121,7 +123,7 @@ public class Main {
                 return;
 
             case 3:
-                System.out.println("");
+                System.out.println();
                 System.out.println("--->   Moznost 3: Propustit studenta z univerzity   <---");
 
                 id = getStudentIdFromInput(scanner, 1, 1);
@@ -134,7 +136,7 @@ public class Main {
                 return;
 
             case 4:
-                System.out.println("");
+                System.out.println();
                 System.out.println("--->   Moznost 4: Vypsat informace o studentovi   <---");
 
                 id = getStudentIdFromInput(scanner, 1, 1);
@@ -149,7 +151,7 @@ public class Main {
                 return;
 
             case 5:
-                System.out.println("");
+                System.out.println();
                 System.out.println("--->   Moznost 5: Spustit dovednost studenta   <---");
 
                 id = getStudentIdFromInput(scanner, 1, 1);
@@ -167,7 +169,7 @@ public class Main {
                 return;
 
             case 6:
-                System.out.println("");
+                System.out.println();
                 System.out.println("--->   Moznost 6: Vypsat abecedne serazene studenty podle oboru   <---");
 
                 SortedMap<String, Student> sortedMapCybersec = new TreeMap<>();
@@ -180,19 +182,15 @@ public class Main {
                 });
 
                 System.out.println("[>] Studenti oboru kyberbezpecnosti:");
-                sortedMapCybersec.forEach((k, v) -> {
-                    System.out.println("(#" + v.getId() + ") jmeno: " + v.getName() + ", prijmeni: " + v.getSurname() + ", narozen/a: " + v.getDateOfBirth() + ", stud. prumer: " + v.getAvgGrade());
-                });
+                sortedMapCybersec.forEach((k, v) -> System.out.println("(#" + v.getId() + ") jmeno: " + v.getName() + ", prijmeni: " + v.getSurname() + ", narozen/a: " + v.getDateOfBirth() + ", stud. prumer: " + v.getAvgGrade()));
                 System.out.println("[>] Studenti oboru telekomunikaci:");
-                sortedMapTelecomm.forEach((k, v) -> {
-                    System.out.println("(#" + v.getId() + ") jmeno: " + v.getName() + ", prijmeni: " + v.getSurname() + ", narozen/a: " + v.getDateOfBirth() + ", stud. prumer: " + v.getAvgGrade());
-                });
+                sortedMapTelecomm.forEach((k, v) -> System.out.println("(#" + v.getId() + ") jmeno: " + v.getName() + ", prijmeni: " + v.getSurname() + ", narozen/a: " + v.getDateOfBirth() + ", stud. prumer: " + v.getAvgGrade()));
 
                 continueByPressingAnyKey();
                 return;
 
             case 7:
-                System.out.println("");
+                System.out.println();
                 System.out.println("--->   Moznost 7: Vypsat obecny studijni prumer   <---");
 
                 int[] sum = {0, 0};
@@ -215,7 +213,7 @@ public class Main {
                 return;
 
             case 8:
-                System.out.println("");
+                System.out.println();
                 System.out.println("--->   Moznost 8: Vypsat pocet studentu v oborech   <---");
 
                 sum = new int[]{0, 0};
@@ -233,7 +231,7 @@ public class Main {
                 return;
 
             case 9:
-                System.out.println("");
+                System.out.println();
                 System.out.println("--->   Moznost 9: Ulozit studenta do souboru   <---");
 
                 id = getStudentIdFromInput(scanner, 1, 1);
@@ -262,7 +260,7 @@ public class Main {
                 return;
 
             case 10:
-                System.out.println("");
+                System.out.println();
                 System.out.println("--->   Moznost 10: Nacist studenta ze souboru   <---");
 
                 System.out.print("[1/1] Zadejte nazev souboru (vc. pripony): ");
@@ -270,7 +268,7 @@ public class Main {
 
                 file = new File("./" + fileName);
                 try {
-                    String output = "";
+                    String output;
                     FileReader fr = new FileReader(file);
                     BufferedReader br = new BufferedReader(fr);
                     br.readLine();
@@ -306,7 +304,6 @@ public class Main {
                 catch (Exception e)
                 {
                     System.out.println("[!] CHYBA! Nepodarilo se otevrit / cist soubor pro import nebo jsou data v nespravnem formatu pro import!");
-                    System.out.println(e);
                     continueByPressingAnyKey();
                     return;
                 }
@@ -315,6 +312,20 @@ public class Main {
 
                 continueByPressingAnyKey();
                 return;
+
+            case 11:
+                System.out.println();
+                System.out.println("--->   Moznost 11: Ukoncit program   <---");
+
+                DbConnector dbConn = new DbConnector();
+                dbConn.pushToDb(students);
+
+                System.out.println("[#] Program se ukoncuje...");
+                return;
+
+            default:
+                System.out.println("[!] CHYBA! Vybrana moznost neexistuje.");
+                continueByPressingAnyKey();
         }
     }
 
