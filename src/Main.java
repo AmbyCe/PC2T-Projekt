@@ -10,9 +10,14 @@ import java.io.FileWriter;
 import java.util.*;
 
 public class Main {
-    private static final HashMap<Integer, Student> students = new HashMap<>();
+    private static HashMap<Integer, Student> students = new HashMap<>();
 
     public static void main(String[] args) {
+        DbConnector dbConn = new DbConnector();
+
+        if (!Arrays.equals(args, new String[]{"halabala"}))
+            students = dbConn.loadFromDb();
+
         System.out.println("#################### DATABAZE STUDENTU ####################");
         System.out.println("#  (Pokracujte vyberem moznosti zadanim cisla do vstupu)  #");
         System.out.println("# ------------------------------------------------------- #");
@@ -65,7 +70,7 @@ public class Main {
                     System.out.println("[#] Pokracujte stisknutim jakekoliv klavesy...");
                     scanner.nextLine();
                     scanner.nextLine();
-                    main(null);
+                    main(new String[]{"halabala"});
                     return;
                 }
                 System.out.print("[2/4] Zadejte krestni jmeno studenta: ");
@@ -317,7 +322,6 @@ public class Main {
                 System.out.println();
                 System.out.println("--->   Moznost 11: Ukoncit program   <---");
 
-                DbConnector dbConn = new DbConnector();
                 dbConn.pushToDb(students);
 
                 System.out.println("[#] Program se ukoncuje...");
@@ -335,7 +339,7 @@ public class Main {
 
         System.out.println("[#] Pokracujte stisknutim jakekoliv klavesy...");
         scanner.nextLine();
-        main(null);
+        main(new String[]{"halabala"});
     }
 
     private static int getStudentIdFromInput(Scanner scanner, int currentStep, int totalSteps)

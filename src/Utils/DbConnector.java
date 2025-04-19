@@ -1,5 +1,6 @@
 package Utils;
 
+import Models.Classes.CybersecurityStudent;
 import Models.Classes.Student;
 import Models.Classes.TelecommunicationsStudent;
 
@@ -63,6 +64,46 @@ public class DbConnector {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public HashMap<Integer, Student> loadFromDb()
+    {
+        connect();
+        HashMap<Integer, Student> students = new HashMap<>();
+
+        ResultSet studentsSet;
+        String sql = "SELECT * FROM students;";
+        try (PreparedStatement prStmt = c.prepareStatement(sql)) {
+            studentsSet = prStmt.executeQuery();
+
+            while (studentsSet.next())
+            {
+                if (studentsSet.getString("specialization").equals("Telekomunikace"))
+                    students.put(studentsSet.getInt("id"), new TelecommunicationsStudent(studentsSet.getInt("id"), studentsSet.getString("name"), studentsSet.getString("surname"), studentsSet.getString("date_of_birth")));
+                else
+                    students.put(studentsSet.getInt("id"), new CybersecurityStudent(studentsSet.getInt("id"), studentsSet.getString("name"), studentsSet.getString("surname"), studentsSet.getString("date_of_birth")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ResultSet gradesSet;
+        sql = "SELECT * FROM grades;";
+        try (PreparedStatement prStmt = c.prepareStatement(sql)) {
+            gradesSet = prStmt.executeQuery();
+
+            while (gradesSet.next())
+            {
+                students.get(gradesSet.getInt("student_id")).addGrade(gradesSet.getInt("grade"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("[>] Vsichni studenti nacteni z databaze...");
+        disconnect();
+
+        return students;
     }
 
     public void pushToDb(HashMap<Integer, Student> students)
