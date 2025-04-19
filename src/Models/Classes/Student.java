@@ -7,6 +7,7 @@ public class Student implements Models.Interfaces.Student, Comparable<Student> {
     private String name;
     private String surname;
     private String dateOfBirth;
+
     private ArrayList<Integer> grades = new ArrayList();
 
     public Student(int id, String name, String surname, String dateOfBirth) {
@@ -43,6 +44,9 @@ public class Student implements Models.Interfaces.Student, Comparable<Student> {
 
     public String getDateOfBirth() {
         return dateOfBirth;
+    }
+    public ArrayList<Integer> getGrades() {
+        return grades;
     }
 
     @Override

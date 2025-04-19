@@ -2,6 +2,8 @@ import Models.Classes.CybersecurityStudent;
 import Models.Classes.Student;
 import Models.Classes.TelecommunicationsStudent;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.*;
 
 public class Main {
@@ -19,6 +21,7 @@ public class Main {
         System.out.println("# 6) Vypisat abecedne serazene studenty podle oboru       #");
         System.out.println("# 7) Vypsat obecny studijni prumer                        #");
         System.out.println("# 8) Vypsat pocet studentu v oborech                      #");
+        System.out.println("# 9) Ulozit studenta do souboru                           #");
         System.out.println("#################### DATABAZE STUDENTU ####################");
 
         System.out.print("[>] Zadejte moznost: ");
@@ -222,6 +225,35 @@ public class Main {
 
                 System.out.println("[>] Pocet studentu na Telekomunikacich: " + sum[0] + ".");
                 System.out.println("[>] Pocet studentu na Kyberbezpecnosti: " + sum[1] + ".");
+
+                continueByPressingAnyKey();
+                return;
+
+            case 9:
+                System.out.println("");
+                System.out.println("--->   Moznost 9: Ulozit studenta do souboru   <---");
+
+                id = getStudentIdFromInput(scanner, 1, 1);
+                if (id == -1) return;
+
+                File file = new File("./" + id + ".csv");
+                try {
+                    FileWriter fw = new FileWriter(file);
+                    targetStudent = students.get(id);
+                    String type = (targetStudent instanceof TelecommunicationsStudent) ? "Telekomunikace" : "Kyberbezpecnost";
+                    fw.write("Obor,Jmeno,Prijmeni,Datum narozeni,Znamky\n"
+                            + type + "," + targetStudent.getName() + "," + targetStudent.getSurname() + "," + targetStudent.getDateOfBirth() + "," + targetStudent.getGrades());
+                    fw.close();
+                }
+                catch (Exception e)
+                {
+                    System.out.println("[!] CHYBA! Nepodarilo se otevrit / vytvorit soubor pro export!");
+
+                    continueByPressingAnyKey();
+                    return;
+                }
+
+                System.out.println("[>] USPECH! Data byla vyexporovana do souboru: " + id + ".csv.");
 
                 continueByPressingAnyKey();
                 return;
