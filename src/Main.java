@@ -18,6 +18,7 @@ public class Main {
         System.out.println("# 5) Spustit dovednost studenta                           #");
         System.out.println("# 6) Vypisat abecedne serazene studenty podle oboru       #");
         System.out.println("# 7) Vypsat obecny studijni prumer                        #");
+        System.out.println("# 8) Vypsat pocet studentu v oborech                      #");
         System.out.println("#################### DATABAZE STUDENTU ####################");
 
         System.out.print("[>] Zadejte moznost: ");
@@ -161,7 +162,7 @@ public class Main {
 
             case 6:
                 System.out.println("");
-                System.out.println("--->   Moznost 6: Vypis abecedne serazenych studentu podle oboru   <---");
+                System.out.println("--->   Moznost 6: Vypsat abecedne serazene studenty podle oboru   <---");
 
                 SortedMap<String, Student> sortedMapCybersec = new TreeMap<>();
                 SortedMap<String, Student> sortedMapTelecomm = new TreeMap<>();
@@ -180,6 +181,47 @@ public class Main {
                 sortedMapTelecomm.forEach((k, v) -> {
                     System.out.println("(#" + v.getId() + ") jmeno: " + v.getName() + ", prijmeni: " + v.getSurname() + ", narozen/a: " + v.getDateOfBirth() + ", stud. prumer: " + v.getAvgGrade());
                 });
+
+                continueByPressingAnyKey();
+                return;
+
+            case 7:
+                System.out.println("");
+                System.out.println("--->   Moznost 7: Vypsat obecny studijni prumer   <---");
+
+                int[] sum = {0, 0};
+                final int[] studentsCount = {0, 0};
+                students.forEach((k, v) -> {
+                    if (v instanceof TelecommunicationsStudent) {
+                        sum[0] += v.getAvgGrade();
+                        studentsCount[0]++;
+                    }
+                    else {
+                        sum[1] += v.getAvgGrade();
+                        studentsCount[1]++;
+                    }
+                });
+
+                System.out.println("[>] Obecny studijni prumer na Telekomunikacich: " + ((float) sum[0] / studentsCount[0]) + ".");
+                System.out.println("[>] Obecny studijni prumer na Kyberbezpecnosti: " + ((float) sum[1] / studentsCount[1]) + ".");
+
+                continueByPressingAnyKey();
+                return;
+
+            case 8:
+                System.out.println("");
+                System.out.println("--->   Moznost 8: Vypsat pocet studentu v oborech   <---");
+
+                sum = new int[]{0, 0};
+                students.forEach((k, v) -> {
+                    if (v instanceof TelecommunicationsStudent)
+                        sum[0]++;
+                    else
+                        sum[1]++;
+                });
+
+                System.out.println("[>] Pocet studentu na Telekomunikacich: " + sum[0] + ".");
+                System.out.println("[>] Pocet studentu na Kyberbezpecnosti: " + sum[1] + ".");
 
                 continueByPressingAnyKey();
                 return;
