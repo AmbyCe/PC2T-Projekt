@@ -12,7 +12,7 @@ public class CybersecurityStudent extends Student implements Models.Interfaces.C
     }
 
     @Override
-    public String GetNameAsHash() throws NoSuchAlgorithmException {
+    public String getNameAsHash() throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         String combinedNameAndSurname = this.getName() + " " + this.getSurname();
         byte[] nameAndSurnameAsBytes = combinedNameAndSurname.getBytes(StandardCharsets.UTF_8);

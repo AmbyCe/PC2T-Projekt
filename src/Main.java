@@ -14,6 +14,7 @@ public class Main {
         System.out.println("# 1) Prijmout studenta na univerzitu (pridat studenta)    #");
         System.out.println("# 2) Zadat studentovi novou znamku                        #");
         System.out.println("# 3) Propustit studenta z univerzity (smazat studenta)    #");
+        System.out.println("# 4) Vypsat informace o studentovi (vc. stud. prumeru)    #");
         System.out.println("#################### DATABAZE STUDENTU ####################");
 
         System.out.print("[>] Zadejte moznost: ");
@@ -28,7 +29,7 @@ public class Main {
         {
             System.out.println("[!] CHYBA! Vybrana moznost musi byt cislo!");
 
-            ContinueByPressingAnyKey();
+            continueByPressingAnyKey();
             return;
         }
 
@@ -69,7 +70,7 @@ public class Main {
                 Student lastAddedStudent = students.get(students.size());
                 System.out.println("[>] USPECH! Byl pridan student: (#" + lastAddedStudent.getId() + ") " + lastAddedStudent.getName() + " " + lastAddedStudent.getSurname());
 
-                ContinueByPressingAnyKey();
+                continueByPressingAnyKey();
                 return;
 
             case 2:
@@ -78,26 +79,8 @@ public class Main {
 
                 int id;
                 int grade;
-                System.out.print("[1/2] Zadejte ID studenta: ");
-                String idString = scanner.next();
-                try
-                {
-                    id = Integer.parseInt(idString);
-                }
-                catch (NumberFormatException e)
-                {
-                    System.out.println("[!] CHYBA! ID studenta musi byt cele cislo!");
-
-                    ContinueByPressingAnyKey();
-                    return;
-                }
-                if (!students.containsKey(id))
-                {
-                    System.out.println("[!] CHYBA! Student s timto ID nebyl nalezen!");
-
-                    ContinueByPressingAnyKey();
-                    return;
-                }
+                id = getStudentIdFromInput(scanner, 1, 2);
+                if (id == -1) return;
 
                 System.out.print("[2/2] Zadejte novou znamku: ");
                 String gradeString = scanner.next();
@@ -109,63 +92,87 @@ public class Main {
                 {
                     System.out.println("[!] CHYBA! Nova znamka studenta musi byt cele cislo!");
 
-                    ContinueByPressingAnyKey();
+                    continueByPressingAnyKey();
                     return;
                 }
                 if (grade < 1 || grade > 5)
                 {
                     System.out.println("[!] CHYBA! Nova znamka musi byt v rozsahu 1-5!");
 
-                    ContinueByPressingAnyKey();
+                    continueByPressingAnyKey();
                     return;
                 }
 
                 Student targetStudent = students.get(id);
-                targetStudent.AddGrade(grade);
+                targetStudent.addGrade(grade);
                 System.out.println("[>] USPECH! Studentovi: (#" + targetStudent.getId() + ") " + targetStudent.getName() + " " + targetStudent.getSurname() + " byla pridana znamka: " + grade);
 
-                ContinueByPressingAnyKey();
+                continueByPressingAnyKey();
                 return;
 
             case 3:
                 System.out.println("");
                 System.out.println("--->   Moznost 3: Propustit studenta z univerzity   <---");
 
-                System.out.print("[1/1] Zadejte ID studenta: ");
-                idString = scanner.next();
-                try
-                {
-                    id = Integer.parseInt(idString);
-                }
-                catch (NumberFormatException e)
-                {
-                    System.out.println("[!] CHYBA! ID studenta musi byt cele cislo!");
-
-                    ContinueByPressingAnyKey();
-                    return;
-                }
-                if (!students.containsKey(id))
-                {
-                    System.out.println("[!] CHYBA! Student s timto ID nebyl nalezen!");
-
-                    ContinueByPressingAnyKey();
-                    return;
-                }
+                id = getStudentIdFromInput(scanner, 1, 1);
+                if (id == -1) return;
 
                 students.remove(id);
                 System.out.println("[>] USPECH! Student s ID: " + id + " byl smazan.");
 
-                ContinueByPressingAnyKey();
+                continueByPressingAnyKey();
+                return;
+
+            case 4:
+                System.out.println("");
+                System.out.println("--->   Moznost 4: Vypsat informace o studentovi   <---");
+
+                id = getStudentIdFromInput(scanner, 1, 1);
+                if (id == -1) return;
+
+                System.out.println("[>] Jmeno: " + students.get(id).getName());
+                System.out.println("[>] Prijmeni: " + students.get(id).getSurname());
+                System.out.println("[>] Datum narozeni: " + students.get(id).getDateOfBirth());
+                System.out.println("[>] Studijni prumer: " + students.get(id).getAvgGrade());
+
+                continueByPressingAnyKey();
                 return;
         }
     }
 
-    private static void ContinueByPressingAnyKey()
+    private static void continueByPressingAnyKey()
     {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("[#] Pokracujte stisknutim jakekoliv klavesy...");
         scanner.nextLine();
         main(null);
+    }
+
+    private static int getStudentIdFromInput(Scanner scanner, int currentStep, int totalSteps)
+    {
+        int id;
+        System.out.print("[" + currentStep + "/" + totalSteps + "] Zadejte ID studenta: ");
+        String idString = scanner.next();
+        try
+        {
+            id = Integer.parseInt(idString);
+        }
+        catch (NumberFormatException e)
+        {
+            System.out.println("[!] CHYBA! ID studenta musi byt cele cislo!");
+
+            continueByPressingAnyKey();
+            return -1;
+        }
+        if (!students.containsKey(id))
+        {
+            System.out.println("[!] CHYBA! Student s timto ID nebyl nalezen!");
+
+            continueByPressingAnyKey();
+            return -1;
+        }
+
+        return id;
     }
 }

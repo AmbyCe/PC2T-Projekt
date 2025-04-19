@@ -7,7 +7,7 @@ public class TelecommunicationsStudent extends Student implements Models.Interfa
     }
 
     @Override
-    public String GetNameInMorse() {
+    public String getNameInMorse() {
         return null;
     }
 }

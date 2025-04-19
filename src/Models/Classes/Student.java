@@ -17,16 +17,16 @@ public class Student implements Models.Interfaces.Student {
     }
 
     @Override
-    public void AddGrade(int grade) {
+    public void addGrade(int grade) {
         this.grades.add(grade);
     }
 
     @Override
-    public float GetAvgGrade() {
+    public float getAvgGrade() {
         int sum = 0;
         for (int grade : grades)
             sum += grade;
-        return sum / grades.size();
+        return (float) sum / grades.size();
     }
 
     public int getId() {
