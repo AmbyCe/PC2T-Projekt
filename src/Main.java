@@ -16,6 +16,8 @@ public class Main {
         System.out.println("# 3) Propustit studenta z univerzity (smazat studenta)    #");
         System.out.println("# 4) Vypsat informace o studentovi (vc. stud. prumeru)    #");
         System.out.println("# 5) Spustit dovednost studenta                           #");
+        System.out.println("# 6) Vypisat abecedne serazene studenty podle oboru       #");
+        System.out.println("# 7) Vypsat obecny studijni prumer                        #");
         System.out.println("#################### DATABAZE STUDENTU ####################");
 
         System.out.print("[>] Zadejte moznost: ");
@@ -153,6 +155,31 @@ public class Main {
                     returnValue = ((TelecommunicationsStudent) students.get(id)).getNameInMorse();
 
                 System.out.println("[>] USPECH! Vysledek ability studenta: " + returnValue + ".");
+
+                continueByPressingAnyKey();
+                return;
+
+            case 6:
+                System.out.println("");
+                System.out.println("--->   Moznost 6: Vypis abecedne serazenych studentu podle oboru   <---");
+
+                SortedMap<String, Student> sortedMapCybersec = new TreeMap<>();
+                SortedMap<String, Student> sortedMapTelecomm = new TreeMap<>();
+                students.forEach((k,v) -> {
+                    if (v instanceof CybersecurityStudent)
+                        sortedMapCybersec.put(v.getSurname(), v);
+                    else
+                        sortedMapTelecomm.put(v.getSurname(), v);
+                });
+
+                System.out.println("[>] Studenti oboru kyberbezpecnosti:");
+                sortedMapCybersec.forEach((k, v) -> {
+                    System.out.println("(#" + v.getId() + ") jmeno: " + v.getName() + ", prijmeni: " + v.getSurname() + ", narozen/a: " + v.getDateOfBirth() + ", stud. prumer: " + v.getAvgGrade());
+                });
+                System.out.println("[>] Studenti oboru telekomunikaci:");
+                sortedMapTelecomm.forEach((k, v) -> {
+                    System.out.println("(#" + v.getId() + ") jmeno: " + v.getName() + ", prijmeni: " + v.getSurname() + ", narozen/a: " + v.getDateOfBirth() + ", stud. prumer: " + v.getAvgGrade());
+                });
 
                 continueByPressingAnyKey();
                 return;

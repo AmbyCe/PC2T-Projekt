@@ -2,7 +2,7 @@ package Models.Classes;
 
 import java.util.ArrayList;
 
-public class Student implements Models.Interfaces.Student {
+public class Student implements Models.Interfaces.Student, Comparable<Student> {
     private int id;
     private String name;
     private String surname;
@@ -43,5 +43,12 @@ public class Student implements Models.Interfaces.Student {
 
     public String getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        if (this.surname.compareTo(o.surname) != 0)
+            return this.surname.compareTo(o.surname);
+        return this.id - o.id;
     }
 }
