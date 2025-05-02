@@ -1,8 +1,8 @@
 package Utils;
 
-import Models.Classes.CybersecurityStudent;
-import Models.Classes.Student;
-import Models.Classes.TelecommunicationsStudent;
+import Models.CybersecurityStudent;
+import Models.Student;
+import Models.TelecommunicationsStudent;
 
 import java.sql.*;
 import java.util.HashMap;
